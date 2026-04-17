@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Persona - PolishedGaze</title>
+    <style>
+        :root {
+            --primary: #5d4037;
+            --secondary: #d4a373;
+            --accent: #8d6e63;
+            --bg: #fdfcfb;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .persona-container {
+            max-width: 900px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        .sidebar {
+            border-right: 1px solid #eee;
+            padding-right: 20px;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .bio-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .traits-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .traits-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .traits-list li::before {
+            content: "✦";
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+
+        .stats {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .bar-bg {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+        }
+
+        .bar-fill {
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        .quote-box {
+            background: #fdfcfb;
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            font-style: italic;
+            margin-top: 30px;
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="persona-container">
+    <div class="header">
+        <h1>Abhinaya</h1>
+        <p>The Craft-Focused Visionary | Founder of PolishedGaze</p>
+    </div>
+
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="section-title">Core Identity</div>
+            <ul class="traits-list">
+                <li>Lifelong Learner</li>
+                <li>Detail Obsessive</li>
+                <li>Personalization Expert</li>
+                <li>Growth Mindset</li>
+            </ul>
+
+            <div class="section-title">Attributes</div>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Technical Precision (Foreign Structure)</span>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 95%;"></div></div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Artistic Intuition</span>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 90%;"></div></div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Customer Empathy</span>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 100%;"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="details">
+            <div class="section-title">Professional Background</div>
+            <p class="bio-text">
+                Abhinaya is an artist who doesn't just "paint nails"—she builds structures. Inspired by digital global trends and solidified by real-world craftsmanship seen in traditional ceremonies, she bridges the gap between modern tech and artisanal service. She is a self-made entrepreneur who values quality over volume.
+            </p>
+
+            <div class="section-title">Motivations & Goals</div>
+            <ul class="traits-list">
+                <li><strong>Continuous Upgrading:</strong> To master foreign nail structures and bring global quality to Coimbatore.</li>
+                <li><strong>The Human Connection:</strong> To ensure every client feels heard through manual, personalized responses rather than automated scripts.</li>
+                <li><strong>Evolution:</strong> Expanding from service-based artistry to a product-driven brand (Vanity Kits/Blogs).</li>
+            </ul>
+
+            <div class="section-title">Business Philosophy</div>
+            <p class="bio-text">
+                "I want people to come back for the work itself." Abhinaya believes in a high-touch service model. She isn't afraid of the 4 AM to 9 PM grind because her focus is on creating a legacy of skill and trust, not just a high-turnover studio.
+            </p>
+        </div>
+
+        <div class="quote-box">
+            "I want my digital presence to be as user-centric as my physical studio. No bots, no judgment—just a space where I can guide someone to their best 'vibe' while exploring the limits of nail structure and design."
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
