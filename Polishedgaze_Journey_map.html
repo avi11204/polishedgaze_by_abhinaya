@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Journey Map - PolishedGaze by Abhinaya</title>
+    <style>
+        :root {
+            --primary: #5d4037;
+            --accent: #d4a373;
+            --bg: #fdfcfb;
+            --text: #443e39;
+            --white: #ffffff;
+            --discovery-bg: #f5ebe0;
+            --exploration-bg: #edede9;
+            --decision-bg: #d6ccc2;
+            --booking-bg: #e3d5ca;
+            --service-bg: #f5ebe0;
+            --post-bg: #d5bdaf;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            table-layout: fixed;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        th:first-child { border-top-left-radius: 12px; }
+        th:last-child { border-top-right-radius: 12px; }
+
+        td {
+            padding: 20px;
+            vertical-align: top;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .stage-cell {
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            border-right: 2px solid var(--accent);
+            width: 150px;
+        }
+
+        /* Row Colors for Visual Hierarchy */
+        tr:nth-child(1) td { background-color: rgba(245, 235, 224, 0.4); }
+        tr:nth-child(2) td { background-color: rgba(237, 237, 233, 0.4); }
+        tr:nth-child(3) td { background-color: rgba(214, 204, 194, 0.4); }
+        tr:nth-child(4) td { background-color: rgba(227, 213, 202, 0.4); }
+        tr:nth-child(5) td { background-color: rgba(245, 235, 224, 0.4); }
+        tr:nth-child(6) td { background-color: rgba(213, 189, 175, 0.4); }
+
+        .label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--primary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .opportunity {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .pain-point {
+            color: #c62828;
+        }
+
+        @media print {
+            body { padding: 0; }
+            table { box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>User Journey Map</h1>
+        <p class="subtitle">PolishedGaze by Abhinaya </p>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 15%;">Stage</th>
+                <th>User Actions</th>
+                <th>Mindset (Thoughts & Emotions)</th>
+                <th>Pain Points</th>
+                <th>UX Opportunities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="stage-cell">1. Discovery</td>
+                <td>Browses Instagram Reels/Stories; Clicks "Link in Bio" via mobile.</td>
+                <td><strong>"This art is unique!"</strong><br>Excited, curious but wary of distance/cost.</td>
+                <td class="pain-point">Hard to find pricing; slow DM replies; no immediate "call to action."</td>
+                <td class="opportunity">Direct link to a mobile-friendly site with clear categorizations and "Starting From" rates.</td>
+            </tr>
+            <tr>
+                <td class="stage-cell">2. Exploration</td>
+                <td>Views Gallery; filters by "Bridal" or "Student Trends"; checks the "About" page.</td>
+                <td><strong>"Can she do my Pinterest design?"</strong><br>Impressed, analytical, looking for skill markers.</td>
+                <td class="pain-point">Overwhelmed by uncategorized photos; doesn't know what "Foreign Structure" means.</td>
+                <td class="opportunity">Categorized visual boards and a "Why quality takes time" educational section.</td>
+            </tr>
+            <tr>
+                <td class="stage-cell">3. Decision</td>
+                <td>Compares pricing tiers; reads reviews; looks for available slots.</td>
+                <td><strong>"Is it worth the 3-hour trip?"</strong><br>Reassured but looking for transparency.</td>
+                <td class="pain-point">Confusion over "add-on" costs; fear of judgment for being "budget-conscious."</td>
+                <td class="opportunity">Interactive "Build your Set" price calculator to remove "Pricing Anxiety."</td>
+            </tr>
+            <tr>
+                <td class="stage-cell">4. Booking</td>
+                <td>Fills out "Vibe Check" form; receives a personalized WhatsApp redirect.</td>
+                <td><strong>"I hope I can get Saturday at 10 AM."</strong><br>Hopeful but impatient for confirmation.</td>
+                <td class="pain-point">Waiting for manual DM/WA response; no real-time calendar view.</td>
+                <td class="opportunity">Soft-booking calendar that captures data first, then sends a pre-filled WhatsApp for the "personal touch."</td>
+            </tr>
+            <tr>
+                <td class="stage-cell">5. Service</td>
+                <td>Undergoes the 2-3 hour procedure; interacts with Abhinaya.</td>
+                <td><strong>"The detail is incredible."</strong><br>Relaxed, appreciative of the precision.</td>
+                <td class="pain-point">Session length can be tiring; forgetting specific aftercare instructions.</td>
+                <td class="opportunity">QR code at the station linking to an "Aftercare Hub" and the studio's blog to read during the session.</td>
+            </tr>
+            <tr>
+                <td class="stage-cell">6. Post-Service</td>
+                <td>Posts a "Nail-fie" on IG; follows aftercare; books a refill.</td>
+                <td><strong>"I need to tell everyone about her!"</strong><br>Delighted, proud, loyal.</td>
+                <td class="pain-point">Nails breaking due to poor aftercare; forgetting to leave a Google review.</td>
+                <td class="opportunity">Automated "24-hour check-in" message with a review link and referral discount.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
