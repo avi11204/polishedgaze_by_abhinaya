@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Research — Polished Gaze by Abhinaya</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose: #C8566A;
+    --rose-light: #F5E0E4;
+    --rose-mid: #E8A0AD;
+    --rose-pale: #FBF3F4;
+    --ink: #1A1118;
+    --ink-mid: #4A3A44;
+    --ink-soft: #8A7080;
+    --cream: #FAF6F0;
+    --cream-dark: #F0E8E0;
+    --white: #FFFFFF;
+    --teal: #2A7A6A;
+    --teal-light: #E0F0EC;
+    --amber: #B86A20;
+    --amber-light: #FDF0E0;
+    --purple: #6A4A8A;
+    --purple-light: #F0EAF8;
+    --border: rgba(26,17,24,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,246,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--rose); letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--ink-soft); text-decoration: none; letter-spacing: 0.03em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--rose); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 4rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: var(--ink);
+    z-index: 0;
+  }
+  .hero-texture {
+    position: absolute; inset: 0; z-index: 1; opacity: 0.04;
+    background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .hero-blob {
+    position: absolute; z-index: 2;
+    border-radius: 50%;
+    filter: blur(80px);
+  }
+  .hero-blob-1 { width: 600px; height: 600px; background: var(--rose); opacity: 0.15; top: -100px; right: -100px; }
+  .hero-blob-2 { width: 400px; height: 400px; background: #6A2A4A; opacity: 0.2; bottom: -50px; left: 200px; }
+  .hero-content { position: relative; z-index: 3; max-width: 780px; }
+  .hero-eyebrow {
+    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--rose-mid); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--rose-mid); }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 400; line-height: 1.1; color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--rose-mid); }
+  .hero-desc { font-size: 16px; color: rgba(255,255,255,0.55); max-width: 560px; margin-bottom: 3rem; line-height: 1.8; }
+  .hero-meta {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+  }
+  .hero-meta-item { }
+  .hero-meta-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--white); }
+  .hero-meta-lbl { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.05em; }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; right: 4rem; z-index: 3;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); display: flex; align-items: center; gap: 8px;
+    writing-mode: vertical-rl;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  section { padding: 6rem 0; }
+  section:nth-child(even) { background: var(--white); }
+
+  /* ── SECTION HEADER ── */
+  .section-header { margin-bottom: 3.5rem; display: flex; align-items: flex-start; gap: 1.5rem; }
+  .section-num {
+    font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 400;
+    color: var(--rose-light); line-height: 1; flex-shrink: 0; margin-top: -8px;
+  }
+  .section-header-text { }
+  .section-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rose); margin-bottom: 6px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 400; color: var(--ink); line-height: 1.2; }
+  .section-subtitle { font-size: 14px; color: var(--ink-soft); margin-top: 8px; }
+
+  /* ── TAGS ── */
+  .tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; margin: 3px 2px; letter-spacing: 0.02em; }
+  .tag-rose { background: var(--rose-light); color: var(--rose); }
+  .tag-teal { background: var(--teal-light); color: var(--teal); }
+  .tag-amber { background: var(--amber-light); color: var(--amber); }
+  .tag-purple { background: var(--purple-light); color: var(--purple); }
+  .tag-ink { background: var(--cream-dark); color: var(--ink-mid); }
+
+  /* ── ARTIST PROFILE ── */
+  .artist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .artist-card {
+    background: var(--cream); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.75rem;
+  }
+  .artist-card h3 { font-size: 13px; font-weight: 500; letter-spacing: 0.05em; color: var(--rose); text-transform: uppercase; margin-bottom: 1rem; }
+  .artist-card ul { list-style: none; }
+  .artist-card ul li {
+    font-size: 14px; color: var(--ink-mid); padding: 8px 0;
+    border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 10px;
+  }
+  .artist-card ul li:last-child { border-bottom: none; }
+  .artist-card ul li::before { content: '→'; color: var(--rose-mid); flex-shrink: 0; margin-top: 1px; }
+  .booking-flow {
+    background: var(--ink); border-radius: 16px; padding: 1.75rem;
+    grid-column: 1 / -1;
+  }
+  .booking-flow h3 { font-size: 13px; font-weight: 500; letter-spacing: 0.05em; color: var(--rose-mid); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .flow-steps { display: flex; align-items: center; gap: 0; flex-wrap: wrap; gap: 8px; }
+  .flow-step {
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; padding: 10px 18px; font-size: 13px; color: rgba(255,255,255,0.8);
+  }
+  .flow-arrow { color: rgba(255,255,255,0.25); font-size: 16px; }
+  .flow-note { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 1rem; line-height: 1.6; }
+
+  /* ── SURVEY STATS ── */
+  .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 3rem; }
+  .stat-card {
+    background: var(--cream); border: 1px solid var(--border); border-radius: 16px;
+    padding: 1.5rem 1.25rem; text-align: center;
+  }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 400; color: var(--rose); }
+  .stat-lbl { font-size: 12px; color: var(--ink-soft); margin-top: 4px; line-height: 1.4; }
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .chart-block { }
+  .chart-block h3 { font-size: 13px; font-weight: 500; color: var(--ink-mid); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.25rem; }
+  .bar-item { margin-bottom: 14px; }
+  .bar-meta { display: flex; justify-content: space-between; margin-bottom: 5px; }
+  .bar-name { font-size: 13px; color: var(--ink-mid); }
+  .bar-pct-txt { font-size: 13px; color: var(--rose); font-weight: 500; }
+  .bar-track { height: 6px; background: var(--cream-dark); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--rose); border-radius: 3px; transition: width 1s ease; }
+  .booking-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1.5rem; }
+  .booking-pill {
+    background: var(--white); border: 1px solid var(--border); border-radius: 30px;
+    padding: 8px 18px; font-size: 13px; color: var(--ink-mid);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .booking-pill-pct { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--rose); }
+
+  /* ── PERSONAS ── */
+  .personas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .persona-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 20px;
+    padding: 1.5rem; position: relative; overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .persona-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(200,86,106,0.12); }
+  .persona-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  }
+  .persona-card:nth-child(1)::before { background: var(--rose); }
+  .persona-card:nth-child(2)::before { background: var(--teal); }
+  .persona-card:nth-child(3)::before { background: var(--amber); }
+  .persona-card:nth-child(4)::before { background: var(--purple); }
+  .persona-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 16px;
+    margin-bottom: 1rem;
+  }
+  .persona-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; color: var(--ink); margin-bottom: 2px; }
+  .persona-type { font-size: 12px; color: var(--ink-soft); margin-bottom: 1.25rem; }
+  .persona-detail { font-size: 12px; color: var(--ink-soft); line-height: 1.8; }
+  .persona-detail b { color: var(--ink-mid); font-weight: 500; }
+  .persona-quote {
+    margin-top: 1rem; padding: 10px 14px;
+    background: var(--cream); border-radius: 10px;
+    font-size: 12px; color: var(--ink-soft); font-style: italic; line-height: 1.5;
+  }
+
+  /* ── PAIN POINTS ── */
+  .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .pain-card {
+    background: var(--cream); border: 1px solid var(--border); border-radius: 16px;
+    padding: 1.5rem; position: relative;
+    transition: transform 0.2s ease;
+  }
+  .pain-card:hover { transform: translateY(-2px); }
+  .pain-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 1rem;
+  }
+  .pain-card h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .pain-card p { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+  .pain-severity {
+    margin-top: 12px; display: flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--ink-soft); letter-spacing: 0.04em;
+  }
+  .severity-dots { display: flex; gap: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cream-dark); }
+  .dot.filled { background: var(--rose); }
+
+  /* ── FEATURES ── */
+  .features-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; }
+  .features-tabs { display: flex; flex-direction: column; gap: 4px; }
+  .feature-tab {
+    padding: 12px 16px; border-radius: 10px; cursor: pointer;
+    font-size: 13px; color: var(--ink-soft);
+    border: 1px solid transparent; transition: all 0.2s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .feature-tab:hover { background: var(--cream); color: var(--ink); }
+  .feature-tab.active { background: var(--rose); color: var(--white); border-color: var(--rose); }
+  .feature-tab-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.6; flex-shrink: 0; }
+  .features-content { }
+  .feature-panel { display: none; animation: fadeIn 0.3s ease; }
+  .feature-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .feature-list { list-style: none; }
+  .feature-item {
+    padding: 1.25rem 0; border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 1rem;
+  }
+  .feature-item:last-child { border-bottom: none; }
+  .priority-pill {
+    font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 20px;
+    white-space: nowrap; flex-shrink: 0; letter-spacing: 0.03em;
+    margin-top: 2px;
+  }
+  .p-must { background: #FDECEA; color: #B02020; }
+  .p-should { background: var(--amber-light); color: var(--amber); }
+  .p-nice { background: var(--teal-light); color: var(--teal); }
+  .p-future { background: var(--purple-light); color: var(--purple); }
+  .feature-text h4 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .feature-text p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* ── BLOG ── */
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .blog-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 20px;
+    overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+  .blog-card-hero {
+    height: 110px; display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; position: relative; overflow: hidden;
+  }
+  .blog-card-body { padding: 1.25rem; }
+  .blog-card-tags { margin-bottom: 10px; }
+  .blog-card h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; color: var(--ink); margin-bottom: 8px; line-height: 1.4; }
+  .blog-card p { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
+  .blog-featured {
+    grid-column: 1 / -1;
+    background: var(--ink); border-color: transparent;
+    display: grid; grid-template-columns: 1fr 1.5fr;
+  }
+  .blog-featured .blog-card-hero {
+    height: auto; font-size: 4rem; background: rgba(200,86,106,0.15);
+    border-radius: 0;
+  }
+  .blog-featured .blog-card-body { padding: 2rem; }
+  .blog-featured h3 { font-size: 1.4rem; color: var(--white); }
+  .blog-featured p { color: rgba(255,255,255,0.5); font-size: 13px; }
+  .blog-featured-badge {
+    display: inline-block; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--rose-mid); margin-bottom: 12px;
+  }
+
+  /* ── INSIGHT ── */
+  .insight-section {
+    background: var(--ink) !important;
+  }
+  .insight-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 3rem; max-width: 800px; margin: 0 auto; text-align: center;
+  }
+  .insight-card .section-num { color: rgba(200,86,106,0.3); }
+  .insight-headline {
+    font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 400; color: var(--white); line-height: 1.3; margin: 1.5rem 0;
+  }
+  .insight-headline em { font-style: italic; color: var(--rose-mid); }
+  .insight-body { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.8; margin-bottom: 2rem; }
+  .insight-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .insight-tag {
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 30px;
+    padding: 6px 16px; font-size: 12px; color: rgba(255,255,255,0.5);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); padding: 2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { padding: 0 2rem 4rem; }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .personas-grid { grid-template-columns: 1fr 1fr; }
+    .artist-grid { grid-template-columns: 1fr; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .pain-grid { grid-template-columns: 1fr 1fr; }
+    .features-layout { grid-template-columns: 1fr; }
+    .features-tabs { flex-direction: row; flex-wrap: wrap; }
+    .blog-grid { grid-template-columns: 1fr 1fr; }
+    .blog-featured { grid-template-columns: 1fr; }
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .personas-grid { grid-template-columns: 1fr; }
+    .pain-grid { grid-template-columns: 1fr; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    section { padding: 4rem 0; }
+    .container { padding: 0 1.25rem; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">Polished Gaze — UX Research</span>
+  <ul class="nav-links">
+    <li><a href="#artist">Artist</a></li>
+    <li><a href="#survey">Survey</a></li>
+    <li><a href="#personas">Personas</a></li>
+    <li><a href="#pain">Pain Points</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#blog">Blog</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding-top:56px;">
+  <div class="hero-bg"></div>
+  <div class="hero-texture"></div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">UX Research · 2024</p>
+    <h1 class="hero-title">Polished Gaze<br><em>by Abhinaya</em></h1>
+    <p class="hero-desc">A nail art studio in Coimbatore. This research documents user interviews, survey insights, pain points, and website feature recommendations — built as a UX case study portfolio piece.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-num">21</div>
+        <div class="hero-meta-lbl">Survey responses</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-num">01</div>
+        <div class="hero-meta-lbl">Artist interview</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-num">04</div>
+        <div class="hero-meta-lbl">User personas</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-num">06</div>
+        <div class="hero-meta-lbl">Pain points</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- 01 ARTIST PROFILE -->
+<section id="artist">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">01</div>
+      <div class="section-header-text">
+        <div class="section-label">Artist Profile</div>
+        <h2 class="section-title">Meet Abhinaya</h2>
+        <p class="section-subtitle">Owner, nail artist, and the person this website is built for.</p>
+      </div>
+    </div>
+    <div class="artist-grid reveal">
+      <div class="artist-card">
+        <h3>Background & Motivation</h3>
+        <ul>
+          <li>Inspired by nail art from a young age through YouTube</li>
+          <li>Business idea confirmed at a cousin's wedding — saw nail art in real life and felt pushed to start</li>
+          <li>Self-made logo and brand colours — strong DIY identity</li>
+          <li>Competing in a crowded Coimbatore market; Shiny Claws is a nearby active competitor</li>
+        </ul>
+      </div>
+      <div class="artist-card">
+        <h3>Work Style & Character</h3>
+        <ul>
+          <li>Works from 4 am to 9 pm when needed — time is not a constraint</li>
+          <li>Each session takes 2–3 hours depending on design complexity</li>
+          <li>Deliberately avoids aggressive promotions — wants clients to return for the quality of her work</li>
+          <li>Self-aware about skill gaps: wants to improve structure, explore foreign techniques, and new products</li>
+        </ul>
+      </div>
+      <div class="booking-flow">
+        <h3>Current Booking Flow (no website)</h3>
+        <div class="flow-steps">
+          <div class="flow-step">Instagram DM</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">WhatsApp text</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Phone call</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Manual confirmation</div>
+        </div>
+        <p class="flow-note">No automated responses. Abhinaya prefers personal interaction — she reads requirements, asks questions, and provides custom inputs to clients before confirming. She wants it to be user-centric, not robotic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 SURVEY DATA -->
+<section id="survey">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">02</div>
+      <div class="section-header-text">
+        <div class="section-label">Survey Data</div>
+        <h2 class="section-title">What users told us</h2>
+        <p class="section-subtitle">21 responses collected from current and potential clients.</p>
+      </div>
+    </div>
+    <div class="stats-row reveal">
+      <div class="stat-card">
+        <div class="stat-num">21</div>
+        <div class="stat-lbl">Total responses</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">71%</div>
+        <div class="stat-lbl">Age 21–25</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">62%</div>
+        <div class="stat-lbl">Students</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">76%</div>
+        <div class="stat-lbl">Discover via Instagram</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">~57%</div>
+        <div class="stat-lbl">Book only occasionally</div>
+      </div>
+    </div>
+    <div class="charts-grid reveal">
+      <div class="chart-block">
+        <h3>What makes them book?</h3>
+        <div class="bar-item">
+          <div class="bar-meta"><span class="bar-name">Design quality</span><span class="bar-pct-txt">80%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-meta"><span class="bar-name">Price</span><span class="bar-pct-txt">76%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:76%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-meta"><span class="bar-name">Reviews</span><span class="bar-pct-txt">57%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:57%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-meta"><span class="bar-name">Location</span><span class="bar-pct-txt">33%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:33%"></div></div>
+        </div>
+        <div style="margin-top:1.25rem;">
+          <p style="font-size:12px;color:var(--ink-soft);font-style:italic;">Only ~10% of respondents were design-specific. The majority are price and trust sensitive — quality must be shown, not assumed.</p>
+        </div>
+      </div>
+      <div class="chart-block">
+        <h3>What keeps them on a website?</h3>
+        <div class="bar-item">
+          <div class="bar-meta"><span class="bar-name">Clear information</span><span class="bar-pct-txt">43%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:43%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-meta"><span class="bar-name">Attractive design</span><span class="bar-pct-txt">38%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:38%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-meta"><span class="bar-name">Easy navigation</span><span class="bar-pct-txt">33%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:33%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-meta"><span class="bar-name">Fast booking</span><span class="bar-pct-txt">10%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+        </div>
+        <div style="margin-top:1.25rem;">
+          <h3 style="margin-bottom:0.75rem;">Preferred booking method</h3>
+          <div class="booking-pills">
+            <div class="booking-pill"><span class="booking-pill-pct">38%</span> Phone call</div>
+            <div class="booking-pill"><span class="booking-pill-pct">33%</span> WhatsApp</div>
+            <div class="booking-pill"><span class="booking-pill-pct">19%</span> Website</div>
+            <div class="booking-pill"><span class="booking-pill-pct">10%</span> Instagram DM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 PERSONAS -->
+<section id="personas">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">03</div>
+      <div class="section-header-text">
+        <div class="section-label">User Personas</div>
+        <h2 class="section-title">Who we're designing for</h2>
+        <p class="section-subtitle">Four distinct user types emerged from the research.</p>
+      </div>
+    </div>
+    <div class="personas-grid reveal">
+      <div class="persona-card">
+        <div class="persona-avatar" style="background:var(--rose-light);color:var(--rose);">SS</div>
+        <div class="persona-name">Shreya</div>
+        <div class="persona-type">The Student Explorer · Age 18–22</div>
+        <div class="persona-detail">
+          <b>Goal:</b> Try trendy designs at a fair price<br>
+          <b>Discovers via:</b> Instagram, Pinterest<br>
+          <b>Frustration:</b> No clear pricing, slow responses<br>
+          <b>Books via:</b> WhatsApp or phone<br>
+          <b>Needs:</b> Gallery, pricing, easy contact
+        </div>
+        <div class="persona-quote">"I want to see what I'm paying for before I reach out."</div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-avatar" style="background:var(--teal-light);color:var(--teal);">BP</div>
+        <div class="persona-name">Bhavya</div>
+        <div class="persona-type">The Bride Planner · Age 21–28</div>
+        <div class="persona-detail">
+          <b>Goal:</b> Perfect nails for a big occasion<br>
+          <b>Discovers via:</b> Instagram, word of mouth<br>
+          <b>Frustration:</b> Complicated booking, unclear pricing<br>
+          <b>Books via:</b> WhatsApp, DM<br>
+          <b>Needs:</b> Gallery, reviews, clear pricing
+        </div>
+        <div class="persona-quote">"I need to trust the artist before my wedding day."</div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-avatar" style="background:var(--amber-light);color:var(--amber);">AW</div>
+        <div class="persona-name">Ananya</div>
+        <div class="persona-type">The Working Professional · Age 24–30</div>
+        <div class="persona-detail">
+          <b>Goal:</b> Quick, quality self-care treat<br>
+          <b>Discovers via:</b> Instagram<br>
+          <b>Frustration:</b> Slow response, no design references<br>
+          <b>Books via:</b> Website or phone<br>
+          <b>Needs:</b> Fast booking, gallery, pricing
+        </div>
+        <div class="persona-quote">"I don't have time for back-and-forth DMs."</div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-avatar" style="background:var(--purple-light);color:var(--purple);">NC</div>
+        <div class="persona-name">Nithya</div>
+        <div class="persona-type">The Loyal Regular · Age 15–20</div>
+        <div class="persona-detail">
+          <b>Goal:</b> Consistent quality from a trusted artist<br>
+          <b>Discovers via:</b> Pinterest, friends<br>
+          <b>Frustration:</b> No design guidance, unclear pricing<br>
+          <b>Books via:</b> Phone, WhatsApp<br>
+          <b>Needs:</b> Proper time slots, communication
+        </div>
+        <div class="persona-quote">"Be the same as youuu 💗"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 PAIN POINTS -->
+<section id="pain">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">04</div>
+      <div class="section-header-text">
+        <div class="section-label">Pain Points & Insights</div>
+        <h2 class="section-title">Where things break down</h2>
+        <p class="section-subtitle">Six friction points identified across the research.</p>
+      </div>
+    </div>
+    <div class="pain-grid reveal">
+      <div class="pain-card">
+        <div class="pain-icon" style="background:#FDECEA;color:#B02020;">₹?</div>
+        <h3>No clear pricing</h3>
+        <p>Most cited frustration (~52%). Users drop off when pricing is hidden or requires a DM to find out. Pricing transparency is the #1 conversion lever.</p>
+        <div class="pain-severity">
+          <div class="severity-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div>
+          </div>
+          Critical
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon" style="background:var(--amber-light);color:var(--amber);">⏱</div>
+        <h3>Slow response</h3>
+        <p>No auto-responder on Instagram. Users lose interest or move to competitors before Abhinaya can respond manually — especially during busy sessions.</p>
+        <div class="pain-severity">
+          <div class="severity-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+          </div>
+          High
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon" style="background:var(--purple-light);color:var(--purple);">🖼</div>
+        <h3>No design references</h3>
+        <p>Users can't visualise options before booking — leading to mismatched expectations, revision requests, and rescheduling that eats into session time.</p>
+        <div class="pain-severity">
+          <div class="severity-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+          </div>
+          High
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon" style="background:var(--teal-light);color:var(--teal);">📋</div>
+        <h3>Complicated booking</h3>
+        <p>Multi-step DM → WhatsApp → call flow is confusing. No time slots means every booking is a manual coordination effort from both sides.</p>
+        <div class="pain-severity">
+          <div class="severity-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+          Medium
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon" style="background:var(--rose-light);color:var(--rose);">📢</div>
+        <h3>No promotions / visibility</h3>
+        <p>Competitors like Shiny Claws actively promote. Abhinaya relies purely on word-of-mouth — a healthy brand philosophy but limiting for new client discovery.</p>
+        <div class="pain-severity">
+          <div class="severity-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+          Medium
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon" style="background:var(--cream-dark);color:var(--ink-mid);">💬</div>
+        <h3>No design guidance given</h3>
+        <p>One user noted: the artist should proactively guide clients away from designs that won't work well for their nail shape, rather than waiting to be asked.</p>
+        <div class="pain-severity">
+          <div class="severity-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+          Low–medium
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">05</div>
+      <div class="section-header-text">
+        <div class="section-label">Feature Recommendations</div>
+        <h2 class="section-title">What the website needs</h2>
+        <p class="section-subtitle">Prioritised by user impact and business value.</p>
+      </div>
+    </div>
+    <div class="features-layout reveal">
+      <div class="features-tabs">
+        <div class="feature-tab active" onclick="showTab('core')"><div class="feature-tab-dot"></div>Core — booking</div>
+        <div class="feature-tab" onclick="showTab('shop')"><div class="feature-tab-dot"></div>Shop — vanity kits</div>
+        <div class="feature-tab" onclick="showTab('blog')"><div class="feature-tab-dot"></div>Blog — education</div>
+        <div class="feature-tab" onclick="showTab('future')"><div class="feature-tab-dot"></div>Future scope</div>
+      </div>
+      <div class="features-content">
+
+        <div class="feature-panel active" id="tab-core">
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="priority-pill p-must">Must have</span>
+              <div class="feature-text"><h4>Design gallery</h4><p>Categorised, filterable nail design portfolio. The #1 thing users want to see before booking — without it, every visitor is flying blind.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-must">Must have</span>
+              <div class="feature-text"><h4>Clear pricing page</h4><p>Tiered or per-design pricing, no hidden costs. Resolves the top pain point immediately and reduces DM volume significantly.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-must">Must have</span>
+              <div class="feature-text"><h4>Easy contact / booking CTA</h4><p>WhatsApp link, phone number, and optionally an online booking form. Meets users on the channels they already prefer.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-should">Should have</span>
+              <div class="feature-text"><h4>Reviews & testimonials</h4><p>57% cite reviews as a booking factor. Existing 5-star clients can build trust with new visitors organically.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-should">Should have</span>
+              <div class="feature-text"><h4>About / artist story</h4><p>Abhinaya's journey — from YouTube inspiration to cousin's wedding to Coimbatore studio — is a compelling narrative. Use it.</p></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="feature-panel" id="tab-shop">
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="priority-pill p-must">Must have</span>
+              <div class="feature-text"><h4>Vanity kit shop page</h4><p>A dedicated section to browse and purchase kits curated by Abhinaya. Targets DIY beginners, gift buyers, and existing clients for at-home upkeep — revenue that works even when she's fully booked.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-should">Should have</span>
+              <div class="feature-text"><h4>Kit + service bundle</h4><p>E.g. "Book a session + take home a starter kit at ₹X off." Increases average order value and gives clients a reason to come back.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-should">Should have</span>
+              <div class="feature-text"><h4>Product detail with tutorial link</h4><p>Each kit links to a blog post or reel showing how to use it. Drives both trust and blog traffic simultaneously.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-nice">Nice to have</span>
+              <div class="feature-text"><h4>"Gift a kit" CTA</h4><p>A dedicated gift flow: pick kit → personalise note → checkout. Directly targets the gift-buyer segment — including the curious non-nail-person from our survey.</p></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="feature-panel" id="tab-blog">
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="priority-pill p-should">Should have</span>
+              <div class="feature-text"><h4>Blog / learn section</h4><p>Beginner-friendly nail care guides, design inspiration, product how-tos. Keeps users on the site longer, builds SEO, and positions Abhinaya as an expert.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-should">Should have</span>
+              <div class="feature-text"><h4>Blog linked to shop + booking</h4><p>Every post ends with a relevant kit recommendation or a "want this look? book a session" CTA. The blog becomes a conversion funnel, not just content for content's sake.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-nice">Nice to have</span>
+              <div class="feature-text"><h4>Design inspiration guide</h4><p>Help clients pick designs based on occasion, nail shape, or vibe. Reduces back-and-forth DMs and helps clients arrive with realistic expectations.</p></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="feature-panel" id="tab-future">
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="priority-pill p-future">Future scope</span>
+              <div class="feature-text"><h4>"What nail vibe are you?" quiz</h4><p>Interactive quiz guiding users to a design style, then to a kit or booking CTA. High engagement, great for Instagram sharing.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-future">Future scope</span>
+              <div class="feature-text"><h4>Online appointment slot picker</h4><p>Calendar + WhatsApp redirect. Reduces manual coordination without needing a full booking system built from scratch.</p></div>
+            </li>
+            <li class="feature-item">
+              <span class="priority-pill p-future">Future scope</span>
+              <div class="feature-text"><h4>Instagram auto DM responder</h4><p>Quick reply with pricing link and website URL for discovery traffic. Solves the slow-response pain point without removing Abhinaya's personal touch for serious enquiries.</p></div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 BLOG IDEAS -->
+<section id="blog">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">06</div>
+      <div class="section-header-text">
+        <div class="section-label">Blog Strategy</div>
+        <h2 class="section-title">Content that converts</h2>
+        <p class="section-subtitle">Five blog post ideas, starting with the one that came straight from a survey outlier.</p>
+      </div>
+    </div>
+    <div class="blog-grid reveal">
+
+      <!-- Featured -->
+      <div class="blog-card blog-featured">
+        <div class="blog-card-hero">💅</div>
+        <div class="blog-card-body">
+          <div class="blog-featured-badge">From a real survey response</div>
+          <h3>"Not a nail person? Here's why you might want to be"</h3>
+          <p style="margin-top:10px;">One respondent said: "Why should I stay on a nails website unless I have a gf?" — so we turned it into a blog post. Targets curious visitors, gift buyers, and partners. Light, fun, low-barrier. Ends with a kit CTA. This is the post that brings in people who never intended to come.</p>
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+            <span class="tag tag-rose" style="border:1px solid rgba(200,86,106,0.3);">For the uninitiated</span>
+            <span class="tag tag-amber">High conversion</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-card-hero" style="background:var(--teal-light);">📋</div>
+        <div class="blog-card-body">
+          <div class="blog-card-tags"><span class="tag tag-teal">Beginner guide</span></div>
+          <h3>"Your first nail appointment — what to expect, what to ask"</h3>
+          <p>Reduces first-timer anxiety. Pre-answers the questions that flood her DMs. Ends with a booking CTA.</p>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-card-hero" style="background:var(--rose-light);">👰</div>
+        <div class="blog-card-body">
+          <div class="blog-card-tags"><span class="tag tag-rose">Design guide</span></div>
+          <h3>"How to pick the right nail design for your occasion"</h3>
+          <p>Bridal, casual, office. Helps personas self-qualify and showcases Abhinaya's full design range.</p>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-card-hero" style="background:var(--amber-light);">🧴</div>
+        <div class="blog-card-body">
+          <div class="blog-card-tags"><span class="tag tag-amber">Product how-to</span></div>
+          <h3>"What's inside the Polished Gaze vanity kit — and how to use it"</h3>
+          <p>Doubles as a product page. Builds DIY buyer confidence. Drives shop sales directly from content.</p>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-card-hero" style="background:var(--purple-light);">⚠️</div>
+        <div class="blog-card-body">
+          <div class="blog-card-tags"><span class="tag tag-purple">Nail care 101</span></div>
+          <h3>"Nail care mistakes most people make (and how to fix them)"</h3>
+          <p>Educational, shareable, SEO-friendly. Positions Abhinaya as an expert, not just a technician.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- STRATEGIC INSIGHT -->
+<section class="insight-section">
+  <div class="container">
+    <div class="insight-card reveal">
+      <div class="section-label" style="color:var(--rose-mid);">Strategic Insight</div>
+      <h2 class="insight-headline">The website's job is not to<br>hard-sell — it's to <em>get out of<br>the way</em>.</h2>
+      <p class="insight-body">Abhinaya doesn't want to push promotions. She wants clients to return for the quality of her work. A well-designed website does exactly that — it shows the work, builds trust, and removes friction to book. The blog and shop extend her revenue beyond the chair, even when appointment slots are full. Together, they make Polished Gaze more than a studio — they make it a brand.</p>
+      <div class="insight-tags">
+        <span class="insight-tag">Show don't tell</span>
+        <span class="insight-tag">Reduce booking friction</span>
+        <span class="insight-tag">Trust through transparency</span>
+        <span class="insight-tag">Revenue beyond the chair</span>
+        <span class="insight-tag">Reflect her personal brand</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Polished Gaze by Abhinaya — UX Research Case Study · Coimbatore, 2024</p>
+  <!-- <p>Research by Avanthikha</p> -->
+   <p>Research by <a href="https://avi11204.github.io/bsa_portfolio/" target="_blank">Avanthikha</a></p>
+</footer>
+
+<script>
+  // Tab switching
+  function showTab(id) {
+    document.querySelectorAll('.feature-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.feature-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
