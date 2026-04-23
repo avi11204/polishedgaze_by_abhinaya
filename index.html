@@ -325,12 +325,30 @@
   }
 
   /* ── FOOTER ── */
-  footer {
-    background: var(--ink); padding: 2rem 4rem;
-    display: flex; align-items: center; justify-content: space-between;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
+/* ── FOOTER ── */
+footer {
+  background: var(--ink);
+  padding: 2rem 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+footer p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+}
+
+footer a {
+  color: var(--rose);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: var(--rose-mid);
+}
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
